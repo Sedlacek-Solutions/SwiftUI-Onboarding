@@ -76,6 +76,24 @@ public extension View {
             )
         )
     }
+    
+    /// Removes data privacy icon, text, and accompanying sheet
+    func showOnboardingIfNeeded(
+        storage: AppStorage<Bool> = .onboarding,
+        config: OnboardingConfiguration,
+        appIcon: Image,
+        continueAction: (() -> Void)? = nil
+    ) -> some View {
+        modifier(
+            OnboardingModifier<EmptyView, EmptyView>(
+                storage: storage,
+                config: config,
+                appIcon: appIcon,
+                continueMode: .standard(action: continueAction),
+                flowContent: nil
+            )
+        )
+    }
 
     /// Conditionally shows onboarding content using a Sign in with Apple button in place of the default continue button.
     ///
@@ -95,6 +113,27 @@ public extension View {
                 appIcon: appIcon,
                 continueMode: .signIn(configuration: signInWithAppleConfiguration),
                 dataPrivacyContent: dataPrivacyContent,
+                flowContent: nil
+            )
+        )
+    }
+    
+    ///  Removes data privacy icon, text, accompanying sheet and conditionally shows onboarding content using a Sign in with Apple button in place of the default continue button.
+    ///
+    /// - Parameters:
+    ///   - signInWithAppleConfiguration: Configuration that customizes the Sign in with Apple control.
+    func showOnboardingIfNeeded(
+        storage: AppStorage<Bool> = .onboarding,
+        config: OnboardingConfiguration,
+        appIcon: Image,
+        signInWithAppleConfiguration: SignInWithAppleButtonConfiguration
+    ) -> some View {
+        modifier(
+            OnboardingModifier<EmptyView, EmptyView>(
+                storage: storage,
+                config: config,
+                appIcon: appIcon,
+                continueMode: .signIn(configuration: signInWithAppleConfiguration),
                 flowContent: nil
             )
         )
@@ -147,6 +186,29 @@ public extension View {
             )
         )
     }
+    
+    /// Removes data privacy icon, text, accompanying sheet and performs a custom onboarding flow.
+    ///
+    /// - Parameters:
+    ///   - flowContent: A view builder for displaying custom content after the welcome screen but before marking onboarding complete.
+    func showOnboardingIfNeeded<F: View>(
+        storage: AppStorage<Bool> = .onboarding,
+        config: OnboardingConfiguration,
+        appIcon: Image,
+        continueAction: (() -> Void)? = nil,
+        @ViewBuilder flowContent: @escaping () -> F
+    ) -> some View {
+        modifier(
+            OnboardingModifier<EmptyView, F>(
+                storage: storage,
+                config: config,
+                appIcon: appIcon,
+                continueMode: .standard(action: continueAction),
+                flowContent: flowContent
+            )
+        )
+    }
+
 
     /// Conditionally shows onboarding content with a Sign in with Apple button, then performs a custom onboarding flow.
     ///
@@ -172,6 +234,29 @@ public extension View {
             )
         )
     }
+    
+    /// Conditionally shows onboarding content with a Sign in with Apple button, then performs a custom onboarding flow.
+    ///
+    /// - Parameters:
+    ///   - signInWithAppleConfiguration: Configuration that customizes the Sign in with Apple control.
+    ///   - flowContent: A view builder for displaying custom content after the welcome screen but before marking onboarding complete.
+    func showOnboardingIfNeeded<F: View>(
+        storage: AppStorage<Bool> = .onboarding,
+        config: OnboardingConfiguration,
+        appIcon: Image,
+        signInWithAppleConfiguration: SignInWithAppleButtonConfiguration,
+        @ViewBuilder flowContent: @escaping () -> F
+    ) -> some View {
+        modifier(
+            OnboardingModifier<EmptyView, F>(
+                storage: storage,
+                config: config,
+                appIcon: appIcon,
+                continueMode: .signIn(configuration: signInWithAppleConfiguration),
+                flowContent: flowContent
+            )
+        )
+    }
 }
 
 struct OnboardingModifier<C: View, F: View> {
@@ -183,7 +268,7 @@ struct OnboardingModifier<C: View, F: View> {
     private let config: OnboardingConfiguration
     private let appIcon: Image
     private let continueMode: ContinueMode
-    private let dataPrivacyContent: () -> C
+    private let dataPrivacyContent: (() -> C)?
     private let flowContent: (() -> F)?
     @AppStorage private var isOnboardingCompleted: Bool
     @State private var isWelcomeScreenCompleted: Bool = false
@@ -201,6 +286,21 @@ struct OnboardingModifier<C: View, F: View> {
         self.appIcon = appIcon
         self.continueMode = continueMode
         self.dataPrivacyContent = dataPrivacyContent
+        self.flowContent = flowContent
+    }
+    
+    init(
+        storage: AppStorage<Bool>,
+        config: OnboardingConfiguration,
+        appIcon: Image,
+        continueMode: ContinueMode,
+        flowContent: (() -> F)? = nil
+    ) {
+        self._isOnboardingCompleted = storage
+        self.config = config
+        self.appIcon = appIcon
+        self.continueMode = continueMode
+        self.dataPrivacyContent = nil
         self.flowContent = flowContent
     }
 
@@ -232,12 +332,20 @@ extension OnboardingModifier: ViewModifier {
             content
         } else if let flowContent, isWelcomeScreenCompleted {
             flowContent()
-        } else {
+        } else if dataPrivacyContent != nil{
             WelcomeScreen(
                 config: config,
                 appIcon: appIcon,
                 continueAction: continueAction,
-                dataPrivacyContent: dataPrivacyContent,
+                dataPrivacyContent: dataPrivacyContent!,
+                signInWithAppleConfiguration: signInWithAppleConfiguration
+            )
+        }
+        else {
+            WelcomeScreen(
+                config: config,
+                appIcon: appIcon,
+                continueAction: continueAction,
                 signInWithAppleConfiguration: signInWithAppleConfiguration
             )
         }
@@ -254,6 +362,16 @@ extension OnboardingModifier: ViewModifier {
         dataPrivacyContent: {
             Text("Privacy Policy Content")
         }
+    )
+}
+
+#Preview("Welcome Screen with No Data Privacy Content") {
+    VStack {
+        Spacer()
+    }
+    .showOnboardingIfNeeded(
+        config: .mock,
+        appIcon: Image(.onboardingKitMockAppIcon)
     )
 }
 

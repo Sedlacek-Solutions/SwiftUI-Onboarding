@@ -51,9 +51,16 @@ struct StyledSheetModifier<C: View>: ViewModifier {
 
     private func dismissButton() -> some ToolbarContent {
         ToolbarItem(placement: .confirmationAction) {
-            Button(action: buttonAction, label: buttonLabel)
-                .buttonStyle(.plain)
-                .accessibilityIdentifier("DismissButton")
+            if #available(iOS 26, macOS 26, *) {
+                Button(role: .close, action: buttonAction)
+                    .buttonStyle(.plain)
+                    .accessibilityIdentifier("DismissButton")
+            }
+            else {
+                Button(action: buttonAction, label: buttonLabel)
+                    .buttonStyle(.plain)
+                    .accessibilityIdentifier("DismissButton")
+            }
         }
     }
 

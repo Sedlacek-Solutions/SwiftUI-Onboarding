@@ -13,7 +13,7 @@ struct BottomSection<C: View> {
     private let appDisplayName: String
     private let continueAction: () -> Void
     private let signInWithAppleConfiguration: SignInWithAppleButtonConfiguration?
-    private let dataPrivacyContent: () -> C
+    private let dataPrivacyContent: (() -> C)?
     @State private var isDataPrivacyPresented: Bool = false
     @State private var isAnimating: Bool = false
 
@@ -29,6 +29,17 @@ struct BottomSection<C: View> {
         self.continueAction = continueAction
         self.signInWithAppleConfiguration = signInWithAppleConfiguration
         self.dataPrivacyContent = dataPrivacyContent
+    }
+    
+    init(accentColor: Color,
+         appDisplayName: String,
+         continueAction: @escaping () -> Void,
+         signInWithAppleConfiguration: SignInWithAppleButtonConfiguration? = nil) where C == EmptyView {
+        self.accentColor = accentColor
+        self.appDisplayName = appDisplayName
+        self.continueAction = continueAction
+        self.signInWithAppleConfiguration = signInWithAppleConfiguration
+        self.dataPrivacyContent = nil
     }
 
     private func onAppear() {
@@ -46,8 +57,10 @@ struct BottomSection<C: View> {
 extension BottomSection: View {
     var body: some View {
         VStack(alignment: .center, spacing: .zero) {
-            dataPrivacyImage
-            disclosureText
+            if (dataPrivacyContent != nil) {
+                dataPrivacyImage
+                disclosureText
+            }
             continueButton
         }
         .padding(.horizontal, 28)
@@ -64,7 +77,9 @@ extension BottomSection: View {
 
     private func dataPrivacySheet() -> some View {
         NavigationStack {
-            dataPrivacyContent()
+            if (dataPrivacyContent != nil) {
+                dataPrivacyContent!()
+            }
         }
     }
 
@@ -126,7 +141,7 @@ extension BottomSection: View {
     }
 }
 
-#Preview {
+#Preview("Data Privacy Content"){
     VStack {
         Spacer()
     }
@@ -139,6 +154,21 @@ extension BottomSection: View {
             },
             dataPrivacyContent: {
                 Text("Privacy Policy Content")
+            }
+        )
+    }
+}
+
+#Preview("No Data Privacy Content"){
+    VStack {
+        Spacer()
+    }
+    .safeAreaInset(edge: .bottom) {
+        BottomSection(
+            accentColor: .blue,
+            appDisplayName: .init("Test App"),
+            continueAction: {
+                print("Continue Tapped")
             }
         )
     }

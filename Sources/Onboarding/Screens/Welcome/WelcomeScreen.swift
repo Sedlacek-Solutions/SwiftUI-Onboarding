@@ -11,7 +11,7 @@ public struct WelcomeScreen<C: View> {
     private let config: OnboardingConfiguration
     private let appIcon: Image
     private let continueAction: () -> Void
-    private let dataPrivacyContent: () -> C
+    private let dataPrivacyContent: (() -> C)?
     private let signInWithAppleConfiguration: SignInWithAppleButtonConfiguration?
     @State private var isAnimating = false
 
@@ -26,6 +26,17 @@ public struct WelcomeScreen<C: View> {
         self.appIcon = appIcon
         self.continueAction = continueAction
         self.dataPrivacyContent = dataPrivacyContent
+        self.signInWithAppleConfiguration = signInWithAppleConfiguration
+    }
+    
+    public init(config: OnboardingConfiguration,
+         appIcon: Image,
+         continueAction: @escaping () -> Void,
+         signInWithAppleConfiguration: SignInWithAppleButtonConfiguration? = nil) where C == EmptyView {
+        self.config = config
+        self.appIcon = appIcon
+        self.continueAction = continueAction
+        self.dataPrivacyContent = nil
         self.signInWithAppleConfiguration = signInWithAppleConfiguration
     }
 
@@ -71,13 +82,26 @@ extension WelcomeScreen: View {
     }
 
     private func bottomSection() -> some View {
-        BottomSection(
-            accentColor: config.accentColor,
-            appDisplayName: config.appDisplayName,
-            continueAction: continueAction,
-            signInWithAppleConfiguration: signInWithAppleConfiguration,
-            dataPrivacyContent: dataPrivacyContent
-        )
+        if (dataPrivacyContent != nil) {
+            return AnyView(
+                BottomSection(
+                    accentColor: config.accentColor,
+                    appDisplayName: config.appDisplayName,
+                    continueAction: continueAction,
+                    signInWithAppleConfiguration: signInWithAppleConfiguration,
+                    dataPrivacyContent: dataPrivacyContent!
+                )
+            )
+        } else {
+            return AnyView(
+                BottomSection(
+                    accentColor: config.accentColor,
+                    appDisplayName: config.appDisplayName,
+                    continueAction: continueAction,
+                    signInWithAppleConfiguration: signInWithAppleConfiguration
+                )
+            )
+        }
     }
 }
 
@@ -90,6 +114,16 @@ extension WelcomeScreen: View {
         },
         dataPrivacyContent: {
             Text("Privacy Policy Content")
+        }
+    )
+}
+
+#Preview("No Data Privacy Content") {
+    WelcomeScreen(
+        config: .mock,
+        appIcon: Image(.onboardingKitMockAppIcon),
+        continueAction: {
+            print("Continue Tapped")
         }
     )
 }
@@ -110,3 +144,4 @@ extension WelcomeScreen: View {
         )
     )
 }
+
