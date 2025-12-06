@@ -53,7 +53,7 @@ extension TitleSection: View {
 
     @ViewBuilder
     private var appIconView: some View {
-        if shouldHideAppIcon {
+        if !shouldHideAppIcon {
             appIcon
                 .resizable()
                 .frame(width: 60, height: 60)
@@ -64,7 +64,7 @@ extension TitleSection: View {
 
     private var welcomeToText: some View {
         Text(.onboardingWelcomeTo, bundle: .module)
-            .foregroundColor(.primary)
+            .foregroundStyle(.primary)
             .fontWeight(.semibold)
     }
 
@@ -79,6 +79,6 @@ extension TitleSection: View {
     TitleSection(
         config: .mock,
         appIcon: Image(.onboardingKitMockAppIcon),
-        shouldHideAppIcon: true
+        shouldHideAppIcon: false
     )
 }

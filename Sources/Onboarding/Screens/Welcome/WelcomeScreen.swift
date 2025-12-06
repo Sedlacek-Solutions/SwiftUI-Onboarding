@@ -59,7 +59,7 @@ extension WelcomeScreen: View {
         TitleSection(
             config: config,
             appIcon: appIcon,
-            shouldHideAppIcon: !isAnimating
+            shouldHideAppIcon: isAnimating
         )
         .offset(y: isAnimating ? 0 : 200)
     }
