@@ -58,16 +58,35 @@ You can install `Onboarding` using the Swift Package Manager.
 Onboarding includes localization for the following languages:
 
 - **English (en)**
-- **German (de)** 
-- **Spanish (es)**
+- **Arabic (ar)**
+- **Bulgarian (bg)**
+- **Chinese (Hong Kong) (zh-HK)**
+- **Chinese Simplified (zh-Hans)**
+- **Chinese Traditional (zh-Hant)**
+- **Czech (cs)**
+- **Danish (da)**
+- **Dutch (nl)**
+- **Finnish (fi)**
 - **French (fr)**
+- **German (de)**
+- **Greek (el)**
+- **Hebrew (he)**
+- **Hindi (hi)**
+- **Indonisian (id)**
 - **Italian (it)**
 - **Japanese (ja)**
 - **Korean (ko)**
+- **Malay (ms)**
+- **Polish (pl)**
 - **Portuguese (pt)**
+- **Portuguese (Brazil) (pt-BR)**
 - **Russian (ru)**
-- **Chinese Simplified (zh-Hans)**
-- **Bulgarian (bg)**
+- **Spanish (es)**
+- **Swedish (sv)**
+- **Thai (th)**
+- **Turkish (tr)**
+- **Ukrainian (uk)**
+- **Vietnamese (vi)**
 
 ## Usage
 
