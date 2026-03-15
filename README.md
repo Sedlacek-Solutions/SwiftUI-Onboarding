@@ -40,8 +40,8 @@ SwiftUI-Onboarding is a SwiftUI library that provides an Apple-like app onboardi
 
 ## Requirements
 
-- **iOS**: 18.0 or later
-- **macOS**: 15.0 or later
+- **iOS**: 16.0 or later
+- **macOS**: 13.0 or later
 - **Swift**: 6.0 or later
 
 ## Installation

@@ -41,7 +41,7 @@ extension ModernBottomSection: View {
             .tint(accentColor)
         }
         .padding(20)
-        .background(.background.secondary)
+        .background(Color.onboardingSecondaryBackground)
         .opacity(isAnimating ? 1 : 0)
         .onAppear(perform: onAppear)
     }

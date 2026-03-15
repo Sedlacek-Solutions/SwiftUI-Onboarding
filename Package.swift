@@ -7,8 +7,8 @@ let package = Package(
     name: "SwiftUI-Onboarding",
     defaultLocalization: "en",
     platforms: [
-        .macOS(.v15),
-        .iOS(.v18)
+        .macOS(.v13),
+        .iOS(.v16)
     ],
     products: PackageProduct.allCases.map(\.description),
     targets: InternalTarget.allCases.map(\.target)

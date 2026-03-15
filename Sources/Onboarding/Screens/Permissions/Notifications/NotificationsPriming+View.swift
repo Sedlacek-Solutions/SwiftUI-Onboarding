@@ -22,7 +22,7 @@ extension NotificationsPriming: View {
                 footer
             }
         }
-        .background(.background.secondary)
+        .background(Color.onboardingSecondaryBackground)
         .onAppear(perform: onAppear)
         .dynamicTypeSize(.xSmall ... .xxxLarge)
     }
@@ -53,16 +53,12 @@ extension NotificationsPriming: View {
             }
         }
         .padding(20)
-        .background(.background.secondary)
+        .background(Color.onboardingSecondaryBackground)
     }
 
     private var devicePreview: some View {
-        UnevenRoundedRectangle(
-            topLeadingRadius: 48,
-            topTrailingRadius: 48,
-            style: .continuous
-        )
-        .fill(.background.secondary)
+        RoundedRectangle(cornerRadius: 48, style: .continuous)
+        .fill(Color.onboardingSecondaryBackground)
         .stroke(.secondary.opacity(0.6), lineWidth: 4)
         .mask {
             LinearGradient(
@@ -103,19 +99,19 @@ extension NotificationsPriming: View {
 
                     Text(config.notificationTimestamp, bundle: config.bundle)
                         .font(.footnote.weight(.semibold))
-                        .foregroundStyle(.secondary)
+                        .foregroundColor(.secondary)
                 }
 
                 Text(config.notificationBody, bundle: config.bundle)
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.secondary)
                     .lineLimit(2)
             }
         }
         .padding(14)
         .background(
-            .background.tertiary.opacity(0.9),
-            in: .rect(cornerRadius: 16)
+            Color.onboardingTertiaryBackground.opacity(0.9),
+            in: RoundedRectangle(cornerRadius: 16, style: .continuous)
         )
         .overlay {
             RoundedRectangle(cornerRadius: 16, style: .continuous)
@@ -129,7 +125,7 @@ extension NotificationsPriming: View {
                 appIcon
                     .resizable()
                     .frame(width: 44, height: 44)
-                    .clipShape(.rect(cornerRadius: 12))
+                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             } else {
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
                     .fill(config.accentColor.opacity(0.18))
@@ -151,7 +147,7 @@ extension NotificationsPriming: View {
 
             Text(config.subtitle, bundle: config.bundle)
                 .font(.body.weight(.medium))
-                .foregroundStyle(.secondary)
+                .foregroundColor(.secondary)
         }
         .multilineTextAlignment(.center)
         .frame(maxWidth: .infinity)

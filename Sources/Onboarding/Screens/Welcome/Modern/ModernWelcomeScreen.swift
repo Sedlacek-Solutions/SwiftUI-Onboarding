@@ -92,7 +92,7 @@ extension ModernWelcomeScreen: View {
         }
         .scrollIndicators(.hidden)
         .safeAreaInset(edge: .bottom, content: bottomSection)
-        .background(.background.secondary)
+        .background(Color.onboardingSecondaryBackground)
         .onAppear(perform: onAppear)
         .dynamicTypeSize(.xSmall ... .xxxLarge)
     }

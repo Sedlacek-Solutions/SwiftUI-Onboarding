@@ -83,9 +83,9 @@ extension AppleWelcomeScreen: View {
             .padding(.vertical, 24)
         }
         .scrollIndicators(.hidden)
-        .defaultScrollAnchor(.center, for: .alignment)
-        .scrollBounceBehavior(.basedOnSize)
-        .background(.background.secondary)
+        .onboardingCenteredScrollAnchor()
+        .onboardingBasedOnSizeScrollBounce()
+        .background(Color.onboardingSecondaryBackground)
         .safeAreaInset(edge: .bottom, content: bottomSection)
         .onAppear(perform: onAppear)
         .dynamicTypeSize(.xSmall ... .xxxLarge)

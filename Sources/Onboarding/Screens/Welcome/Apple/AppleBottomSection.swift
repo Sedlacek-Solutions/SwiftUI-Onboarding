@@ -52,7 +52,7 @@ extension AppleBottomSection: View {
         }
         .padding(.horizontal, 28)
         .padding(.vertical, 24)
-        .background(.background.secondary)
+        .background(Color.onboardingSecondaryBackground)
         .mask(opacityLinearGradient)
         .opacity(isAnimating ? 1 : 0)
         .onAppear(perform: onAppear)
@@ -68,9 +68,9 @@ extension AppleBottomSection: View {
     private var disclosureText: some View {
         Group {
             Text(verbatim: appDisplayName)
-                .foregroundStyle(.secondary) +
+                .foregroundColor(.secondary) +
             Text(.privacyDataCollection, bundle: .module)
-                .foregroundStyle(.secondary) +
+                .foregroundColor(.secondary) +
             Text(.privacyDataManagement, bundle: .module)
                 .foregroundStyle(accentColor)
                 .bold()

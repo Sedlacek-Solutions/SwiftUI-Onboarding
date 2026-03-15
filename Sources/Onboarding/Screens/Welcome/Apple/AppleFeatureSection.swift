@@ -82,7 +82,7 @@ struct FeatureView: View {
 
     private var contentText: some View {
         Text(info.content)
-            .foregroundStyle(.secondary)
+            .foregroundColor(.secondary)
             .font(.subheadline)
     }
 }
@@ -94,6 +94,6 @@ struct FeatureView: View {
         }
         .padding(40)
     }
-    .defaultScrollAnchor(.center, for: .alignment)
-    .scrollBounceBehavior(.basedOnSize)
+    .onboardingCenteredScrollAnchor()
+    .onboardingBasedOnSizeScrollBounce()
 }

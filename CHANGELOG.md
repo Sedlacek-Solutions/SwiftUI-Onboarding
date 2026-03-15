@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - BREAKING: `.showOnboardingIfNeeded` and `.presentOnboardingIfNeeded` now only manage storage/presentation state and take an `onboardingContent` view builder. Provide your onboarding UI and call the supplied `markComplete` action when finished.
 - `WelcomeScreen` now conforms to `View` directly—use `.with(continueAction:)` to inject your completion handler instead of wrapping in a separate view type.
+- Lowered minimum deployment targets to iOS 16.0 and macOS 13.0.
+- Replaced newer style/shape API usage with compatibility-safe fallbacks where needed.
 
 ### Added
 - New `WelcomeScreen.modern` layout with card-style feature list and inline terms/privacy links.

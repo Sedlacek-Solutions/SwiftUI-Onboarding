@@ -17,7 +17,7 @@ struct ModernDisclaimerSection: View {
         VStack(alignment: .center, spacing: 8) {
             Text(.modernDisclaimerPrefix, bundle: .module)
                 .font(.footnote)
-                .foregroundStyle(.secondary)
+                .foregroundColor(.secondary)
 
             HStack(spacing: 4) {
                 Text(.modernDisclaimerTerms, bundle: .module)
@@ -28,7 +28,7 @@ struct ModernDisclaimerSection: View {
                     }
                 Text(.modernDisclaimerAnd, bundle: .module)
                     .font(.footnote)
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.secondary)
                 Text(.modernDisclaimerPrivacy, bundle: .module)
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(accentColor)

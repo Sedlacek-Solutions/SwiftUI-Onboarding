@@ -53,7 +53,7 @@ extension ModernTitleSection: View {
             config.appIcon
                 .resizable()
                 .frame(width: 60, height: 60)
-                .clipShape(.rect(cornerRadius: 10))
+                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                 .padding(.bottom)
         }
     }

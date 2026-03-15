@@ -57,8 +57,8 @@ private struct ModernFeatureCard: View {
                 .frame(width: 40, height: 40)
                 .foregroundStyle(accentColor)
                 .background(
-                    .background.tertiary,
-                    in: .rect(cornerRadius: 12)
+                    Color.onboardingTertiaryBackground,
+                    in: RoundedRectangle(cornerRadius: 12, style: .continuous)
                 )
 
             VStack(alignment: .leading, spacing: 8) {
@@ -68,15 +68,15 @@ private struct ModernFeatureCard: View {
 
                 Text(feature.content)
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.secondary)
             }
 
             Spacer()
         }
         .padding(16)
         .background(
-            .background.secondary,
-            in: .rect(cornerRadius: 12)
+            Color.onboardingSecondaryBackground,
+            in: RoundedRectangle(cornerRadius: 12, style: .continuous)
         )
     }
 }
