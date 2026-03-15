@@ -32,19 +32,19 @@ public struct FeatureInfo: Identifiable {
     ///
     /// Typically uses SF Symbols or custom images to visually represent
     /// the feature being highlighted.
-    let image: Image
+    public let image: Image
 
     /// The title or name of the feature.
     ///
     /// A concise, descriptive title that identifies the feature.
     /// Should be brief and easily scannable.
-    let title: String
+    public let title: LocalizedStringKey
 
     /// A detailed description of the feature.
     ///
     /// Provides additional context about what the feature does
     /// and how it benefits the user.
-    let content: String
+    public let content: LocalizedStringKey
 
     /// Creates a new feature info instance.
     ///
@@ -54,8 +54,8 @@ public struct FeatureInfo: Identifiable {
     ///   - content: A detailed description of the feature
     public init(
         image: Image,
-        title: String,
-        content: String
+        title: LocalizedStringKey,
+        content: LocalizedStringKey
     ) {
         self.image = image
         self.title = title
@@ -68,42 +68,42 @@ public extension FeatureInfo {
     /// Mock feature representing cross-platform support.
     static let mock: FeatureInfo = .init(
         image: Image(systemName: "laptopcomputer.and.iphone"),
-        title: "Cross-platform Support",
-        content: "Works seamlessly on iOS, iPadOS, & macOS."
+        title: "feature.crossplatform.title",
+        content: "feature.crossplatform.content"
     )
 
     /// Mock feature representing multi-language support.
     static let mock2: FeatureInfo = .init(
         image: Image(systemName: "globe"),
-        title: "Multi-language Support",
-        content: "Built-in localization for 10+ languages."
+        title: "feature.localization.title",
+        content: "feature.localization.content"
     )
 
     /// Mock feature representing Swift 6.0 compatibility.
     static let mock3: FeatureInfo = .init(
         image: Image(systemName: "swift"),
-        title: "Swift 6.0 Compatible",
-        content: "Built with the latest Swift standards."
+        title: "feature.swift.title",
+        content: "feature.swift.content"
     )
 
     /// Mock feature representing accessibility features.
     static let mock4: FeatureInfo = .init(
         image: Image(systemName: "accessibility"),
-        title: "Accessibility First",
-        content: "Full Dynamic Type and accessibility support."
+        title: "feature.accessibility.title",
+        content: "feature.accessibility.content"
     )
 
     /// Mock feature representing easy customization.
     static let mock5: FeatureInfo = .init(
         image: Image(systemName: "paintbrush.fill"),
-        title: "Highly Customizable",
-        content: "Flexible options to match your app's design."
+        title: "feature.customization.title",
+        content: "feature.customization.content"
     )
 
     /// Mock feature representing light and dark mode support.
     static let mock6: FeatureInfo = .init(
         image: Image(systemName: "circle.lefthalf.filled"),
-        title: "Light & Dark Mode",
-        content: "Looks beautiful in both light and dark appearances."
+        title: "feature.appearance.title",
+        content: "feature.appearance.content"
     )
 }
