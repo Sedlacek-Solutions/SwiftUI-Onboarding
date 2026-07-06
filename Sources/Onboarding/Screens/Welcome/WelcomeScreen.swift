@@ -10,6 +10,7 @@ import SwiftUI
 public enum WelcomeScreen {
     case apple(AppleWelcomeScreen.Configuration)
     case modern(ModernWelcomeScreen.Configuration)
+    case hero(HeroWelcomeScreen.Configuration)
 }
 
 public extension WelcomeScreen {
@@ -53,12 +54,46 @@ public extension WelcomeScreen {
         )
     }
 
+    static func hero<HeroContent: View>(
+        accentColor: Color = .blue,
+        title: LocalizedStringKey,
+        ctaTitle: LocalizedStringKey = "Get Started",
+        accountPrompt: LocalizedStringKey = "Already have an account?",
+        signInTitle: LocalizedStringKey = "Sign in",
+        textBundle: Bundle? = nil,
+        languageOptions: [OnboardingLanguageOption],
+        selectedLanguageStorageKey: String = "onboarding.selectedLanguageIdentifier",
+        defaultLanguageIdentifier: String? = nil,
+        signInAction: @escaping () -> Void = {},
+        languageSelectionAction: @escaping (OnboardingLanguageOption) -> Void = { _ in },
+        @ViewBuilder heroContent: () -> HeroContent
+    ) -> Self {
+        .hero(
+            .init(
+                accentColor: accentColor,
+                title: title,
+                ctaTitle: ctaTitle,
+                accountPrompt: accountPrompt,
+                signInTitle: signInTitle,
+                textBundle: textBundle,
+                languageOptions: languageOptions,
+                selectedLanguageStorageKey: selectedLanguageStorageKey,
+                defaultLanguageIdentifier: defaultLanguageIdentifier,
+                signInAction: signInAction,
+                languageSelectionAction: languageSelectionAction,
+                heroContent: heroContent
+            )
+        )
+    }
+
     func with(continueAction: @escaping () -> Void) -> Self {
         switch self {
         case let .apple(configuration):
             return .apple(configuration.with(continueAction: continueAction))
         case let .modern(configuration):
             return .modern(configuration.with(continueAction: continueAction))
+        case let .hero(configuration):
+            return .hero(configuration.with(continueAction: continueAction))
         }
     }
 }
@@ -76,6 +111,8 @@ extension WelcomeScreen: View {
             AppleWelcomeScreen(config: configuration)
         case let .modern(configuration):
             ModernWelcomeScreen(config: configuration)
+        case let .hero(configuration):
+            HeroWelcomeScreen(config: configuration)
         }
     }
 }

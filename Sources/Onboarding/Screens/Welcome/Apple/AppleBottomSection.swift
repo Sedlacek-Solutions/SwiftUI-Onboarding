@@ -87,15 +87,11 @@ extension AppleBottomSection: View {
             action: continueAction,
             label: continueText
         )
-        .font(.title3.weight(.medium))
-        .buttonStyle(.borderedProminent)
-        .tint(accentColor)
+        .buttonStyle(.primary(accentColor: accentColor))
     }
 
     private func continueText() -> some View {
         Text(.actionContinue, bundle: .module)
-            .padding(.vertical, 6)
-            .frame(maxWidth: .infinity)
     }
 
     private func opacityLinearGradient() -> some View {

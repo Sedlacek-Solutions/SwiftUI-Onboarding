@@ -237,6 +237,37 @@ ContentView()
     }
 ```
 
+#### Hero Welcome Screen
+
+Use the hero layout when your onboarding should lead with a product preview,
+language picker, CTA, and account sign-in action:
+```swift
+let hero = WelcomeScreen.hero(
+    accentColor: .mint,
+    title: "Track every meal with AI",
+    languageOptions: [
+        OnboardingLanguageOption(identifier: "en", displayName: "English", flag: "🇺🇸", shortName: "EN"),
+        OnboardingLanguageOption(identifier: "de", displayName: "Deutsch", flag: "🇩🇪", shortName: "DE"),
+        OnboardingLanguageOption(identifier: "es", displayName: "Español", flag: "🇪🇸", shortName: "ES")
+    ],
+    signInAction: {
+        // Present your sign-in flow.
+    },
+    languageSelectionAction: { language in
+        // Mirror the selected language in your app if needed.
+    }
+) {
+    Image("WelcomeHero")
+        .resizable()
+        .scaledToFit()
+}
+
+ContentView()
+    .showOnboardingIfNeeded { markComplete in
+        hero.with(continueAction: markComplete)
+    }
+```
+
 #### Multi-Screen Onboarding Flows
 
 Need more than a single welcome screen? Build whatever flow you need inside the onboarding builder and call `markComplete()` when you're done.
@@ -280,6 +311,9 @@ PermissionsScreen.notifications(
 - `.modern(ModernWelcomeScreen.Configuration)`: Card-based feature layout with inline terms/privacy links.
   - Required: `appIcon`, `appDisplayName`, `features`, `termsOfServiceURL`, `privacyPolicyURL`
   - Optional: `accentColor`, `titleSectionAlignment`
+- `.hero(HeroWelcomeScreen.Configuration)`: Hero-focused layout with toolbar language button, sheet-based language picker, custom hero content, CTA, and sign-in action.
+  - Required: `title`, `languageOptions`, `heroContent`
+  - Optional: `accentColor`, `ctaTitle`, `accountPrompt`, `signInTitle`, `textBundle`, `selectedLanguageStorageKey`, `defaultLanguageIdentifier`, `signInAction`, `languageSelectionAction`
 
 ### PermissionsScreen
 

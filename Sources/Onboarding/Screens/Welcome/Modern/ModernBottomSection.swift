@@ -33,12 +33,8 @@ extension ModernBottomSection: View {
 
             Button(action: continueAction) {
                 Text(.actionContinue, bundle: .module)
-                    .frame(height: 44)
-                    .frame(maxWidth: .infinity)
-                    .font(.title3.weight(.medium))
             }
-            .buttonStyle(.borderedProminent)
-            .tint(accentColor)
+            .buttonStyle(.primary(accentColor: accentColor))
         }
         .padding(20)
         .background(.background.secondary)

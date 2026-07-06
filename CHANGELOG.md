@@ -7,12 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.0] - 2026-07-06
+
 ### Changed
 - BREAKING: `.showOnboardingIfNeeded` and `.presentOnboardingIfNeeded` now only manage storage/presentation state and take an `onboardingContent` view builder. Provide your onboarding UI and call the supplied `markComplete` action when finished.
 - `WelcomeScreen` now conforms to `View` directly—use `.with(continueAction:)` to inject your completion handler instead of wrapping in a separate view type.
+- Primary onboarding actions now use a shared capsule button style.
 
 ### Added
 - New `WelcomeScreen.modern` layout with card-style feature list and inline terms/privacy links.
+- New `WelcomeScreen.hero` layout with a sheet-based language picker, custom hero content, CTA, and sign-in action.
+- New `WelcomeScreen.hero` layout with a sheet-based language picker, custom hero content, CTA, and sign-in action.
 
 ## [2.1.4] - 2025-10-24
 

@@ -31,12 +31,8 @@ extension NotificationsPriming: View {
         VStack(spacing: 20) {
             Button(action: requestAuthorizationAndProceed) {
                 Text(config.allowButtonTitle, bundle: config.bundle)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 48)
-                    .font(.title3.weight(.semibold))
             }
-            .buttonStyle(.borderedProminent)
-            .tint(config.accentColor)
+            .buttonStyle(.primary(accentColor: config.accentColor))
             .overlay {
                 if isLoading {
                     ProgressView()
