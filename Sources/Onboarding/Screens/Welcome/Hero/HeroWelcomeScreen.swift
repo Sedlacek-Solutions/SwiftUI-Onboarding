@@ -81,6 +81,15 @@ public struct HeroWelcomeScreen {
     @State private var isAnimating = false
     @State private var isLanguageSheetPresented = false
 
+    private enum Layout {
+        static let horizontalPadding: CGFloat = 24
+        static let topPadding: CGFloat = 18
+        static let verticalSpacing: CGFloat = 28
+        static let minimumHeroHeight: CGFloat = 220
+        static let heroHeightRatio: CGFloat = 0.82
+        static let heroAspectRatio: CGFloat = 1.18
+    }
+
     public init(config: Configuration) {
         self.config = config
         self._selectedLanguageIdentifier = AppStorage(
@@ -134,16 +143,18 @@ public extension HeroWelcomeScreen.Configuration {
 extension HeroWelcomeScreen: View {
     public var body: some View {
         NavigationStack {
-            VStack(spacing: 28) {
-                Spacer(minLength: 8)
+            GeometryReader { geometry in
+                VStack(spacing: Layout.verticalSpacing) {
+                    Spacer(minLength: 8)
 
-                heroSection
+                    heroSection(in: geometry.size)
 
-                Spacer(minLength: 0)
+                    Spacer(minLength: 0)
+                }
+                .padding(.horizontal, Layout.horizontalPadding)
+                .padding(.top, Layout.topPadding)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            .padding(.horizontal, 24)
-            .padding(.top, 18)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(.background.secondary)
             .safeAreaInset(edge: .bottom, content: bottomSection)
             .environment(\.locale, selectedLocale)
@@ -176,10 +187,15 @@ extension HeroWelcomeScreen: View {
             ?? config.languageOptions.first
     }
 
-    private var heroSection: some View {
-        config.heroContent
-            .frame(maxWidth: 360)
-            .frame(maxHeight: 430)
+    private func heroSection(in availableSize: CGSize) -> some View {
+        let contentWidth = max(0, availableSize.width - (Layout.horizontalPadding * 2))
+        let contentHeight = max(0, availableSize.height - Layout.topPadding - Layout.verticalSpacing)
+        let proportionalHeight = contentHeight * Layout.heroHeightRatio
+        let aspectHeight = contentWidth * Layout.heroAspectRatio
+        let heroHeight = min(max(proportionalHeight, Layout.minimumHeroHeight), aspectHeight)
+
+        return config.heroContent
+            .frame(width: contentWidth, height: heroHeight)
             .scaleEffect(isAnimating ? 1 : 0.94)
             .opacity(isAnimating ? 1 : 0)
     }
@@ -220,4 +236,34 @@ extension HeroWelcomeScreen: View {
 
 #Preview("Hero") {
     HeroWelcomeScreen(config: .mock)
+}
+
+#Preview("Hero - Small iPhone", traits: .fixedLayout(width: 375, height: 667)) {
+    HeroWelcomeScreen(config: .scalableImagePreview)
+}
+
+#Preview("Hero - Large iPhone", traits: .fixedLayout(width: 430, height: 932)) {
+    HeroWelcomeScreen(config: .scalableImagePreview)
+}
+
+@MainActor
+private extension HeroWelcomeScreen.Configuration {
+    static let scalableImagePreview = Self(
+        accentColor: .blue,
+        title: "Track every calorie with AI assistance",
+        ctaTitle: .heroCTATitle,
+        accountPrompt: .heroAccountPrompt,
+        signInTitle: .heroSignInTitle,
+        textBundle: .module,
+        languageOptions: [
+            .init(identifier: "en", displayName: "English", flag: "🇺🇸", shortName: "EN"),
+            .init(identifier: "de", displayName: "Deutsch", flag: "🇩🇪", shortName: "DE"),
+            .init(identifier: "es", displayName: "Español", flag: "🇪🇸", shortName: "ES")
+        ]
+    ) {
+        Image(systemName: "fork.knife.circle.fill")
+            .resizable()
+            .scaledToFit()
+            .foregroundStyle(.blue)
+    }
 }
