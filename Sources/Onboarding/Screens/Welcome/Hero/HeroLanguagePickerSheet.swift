@@ -10,7 +10,7 @@ import SwiftUI
 struct HeroLanguagePickerSheet {
     let accentColor: Color
     let languageOptions: [OnboardingLanguageOption]
-    @Binding var selectedLanguageIdentifier: String
+    let selectedLanguageIdentifier: String
     let languageSelectionAction: (OnboardingLanguageOption) -> Void
     @Environment(\.dismiss) private var dismiss
 }
@@ -21,7 +21,6 @@ extension HeroLanguagePickerSheet: View {
         NavigationStack {
             List(languageOptions) { language in
                 Button {
-                    selectedLanguageIdentifier = language.identifier
                     languageSelectionAction(language)
                     dismiss()
                 } label: {
@@ -75,8 +74,6 @@ private extension View {
 }
 
 #Preview {
-    @Previewable @State var selectedLanguageIdentifier = "en"
-
     HeroLanguagePickerSheet(
         accentColor: .mint,
         languageOptions: [
@@ -84,7 +81,7 @@ private extension View {
             .init(identifier: "de", displayName: "Deutsch", flag: "🇩🇪", shortName: "DE"),
             .init(identifier: "es", displayName: "Español", flag: "🇪🇸", shortName: "ES")
         ],
-        selectedLanguageIdentifier: $selectedLanguageIdentifier,
+        selectedLanguageIdentifier: "en",
         languageSelectionAction: { _ in }
     )
 }

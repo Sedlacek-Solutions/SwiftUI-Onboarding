@@ -11,7 +11,12 @@ let package = Package(
         .iOS(.v18)
     ],
     products: PackageProduct.allCases.map(\.description),
-    targets: InternalTarget.allCases.map(\.target)
+    targets: InternalTarget.allCases.map(\.target) + [
+        .testTarget(
+            name: "OnboardingTests",
+            dependencies: ["Onboarding"]
+        )
+    ]
 )
 
 // MARK: PackageProduct
